@@ -15,12 +15,12 @@ class User(Base):
     full_name = Column(String(100), nullable=False)
     email = Column(String(100), unique=True, index=True, nullable=False)
     password = Column(String, nullable=False)
-    role = Column(String(20), default="user")
-    is_active = Column(Boolean, default=True)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    refresh_tokens = relationship(
-        "RefreshToken",
-        back_populates="user",
-        cascade="all, delete"
-    )
+    # role = Column(String(20), default="user")
+    # is_active = Column(Boolean, default=True)
+    # created_at = Column(DateTime, default=datetime.utcnow)
+    # updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    # refresh_tokens = relationship(
+    #     "RefreshToken",
+    #     back_populates="user",
+    #     cascade="all, delete"
+    # )
