@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+
+  backend:
+    build: .
+    container_name: enterprise-auth
+    #Normally Docker creates random names, Instead, your container will always be named
+
+    ports:
+      - "8000:8000" 
+    #HOST_PORT : CONTAINER_PORT, localhost:8000 → FastAPI:8000
+
+    env_file:
+      - .env 
+    #Docker loads environment variables from your .env file.
+
+    depends_on:
+      - postgres 
+    #Start the postgres container before starting the backend container.
+
+    volumes:
+      - .:/app 
+    #It maps your local project directory into the container.
+
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    # This overrides the default command in the Dockerfile.
+
+  postgres:
+    image: postgres:16
+    #Instead of building from a Dockerfile, Docker downloads the official PostgreSQL 16 image.
+
+    container_name: postgres-db
+
+    restart: always
+    #If the database container stops unexpectedly, Docker automatically restarts it.
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: authdb
+
+    ports:
+      - "5432:5432"
+    # Makes PostgreSQL accessible from your host machine.
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # The volume stores PostgreSQL data outside the container's writable layer.
+
+volumes:
+  postgres_data:
+  # This tells Docker to create and manage a persistent volume named postgres_data.
